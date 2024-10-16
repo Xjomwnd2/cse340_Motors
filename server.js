@@ -5,15 +5,16 @@
 /* ***********************
  * Require Statements
  *************************/
-const express = require("express")
-const env = require("dotenv").config()
-const app = express()
-const static = require("./routes/static")
+const express = require("express");
+const expressLayouts = require("express-ejs-layouts");
+const env = require("dotenv").config();
+const app = express();
+const static = require("./routes/static");
 
 /* ***********************
  * Routes
  *************************/
-app.use(static)
+app.use(static);
 
 /* ***********************
  * Local Server Information
@@ -26,5 +27,5 @@ const host = process.env.HOST
  * Log statement to confirm server operation
  *************************/
 app.listen(port, () => {
-  console.log(`app listening on ${host}:${port}`)
-})
+  console.log(`app listening on ${host}:${port}`);
+});
