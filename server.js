@@ -11,7 +11,7 @@ const env = require("dotenv").config();
 const app = express();
 const static = require("./routes/static");
 const session = require('express-session');
-const cookieParser = require('cookie-parser'); // Added this line
+const cookieParser = require('cookie-parser');
 const pool = require('./database/');
 const baseController = require("./controllers/baseController");
 const inventoryRoute = require('./routes/inventoryRoute'); // adjust the path based on your folder structure
@@ -27,25 +27,18 @@ app.set("layout", "./layouts/layout"); // not at views root
  * Middleware
  * ************************/
 // Set up middleware
-app.use(cookieParser()); // Now cookieParser is defined correctly
+app.use(cookieParser());
 
 app.use(session({
   store: new (require('connect-pg-simple')(session))({
     createTableIfMissing: true,
     pool,
   }),
-  secret: process.env.SESSION_SECRET,
-  resave: true,
+  secret: process.env.SESSION_SECRET || 'yourSecretKey', // Ensure the secret is set
+  resave: false, // Changed from true to avoid unnecessary session resaving
   saveUninitialized: true,
-  name: 'sessionId',
-})) 
-
-app.use(session({
-    secret: 'yourSecretKey', // Add a secret key here
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false } // You can set `secure: true` if you're using HTTPS
-}));
+  cookie: { secure: false } // Set to true if using HTTPS
+})); 
 
 /* ***********************
  * Routes
