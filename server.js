@@ -14,6 +14,8 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const pool = require('./database/');
 const baseController = require("./controllers/baseController");
+const inventoryRoute = require('./routes/inventoryRoute'); // adjust the path based on your folder structure
+
 
 /* ***********************
  * View Engine and Templates
