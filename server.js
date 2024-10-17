@@ -11,12 +11,10 @@ const env = require("dotenv").config();
 const app = express();
 const static = require("./routes/static");
 const session = require('express-session');
+const cookieParser = require('cookie-parser'); // Added this line
 const pool = require('./database/');
 const baseController = require("./controllers/baseController");
 const inventoryRoute = require('./routes/inventoryRoute'); // adjust the path based on your folder structure
-
-
-
 
 /* ***********************
  * View Engine and Templates
@@ -25,12 +23,11 @@ app.set("view engine", "ejs");
 app.use(expressLayouts);
 app.set("layout", "./layouts/layout"); // not at views root 
 
-
 /* ***********************
  * Middleware
  * ************************/
 // Set up middleware
-app.use(cookieParser());
+app.use(cookieParser()); // Now cookieParser is defined correctly
 
 app.use(session({
   store: new (require('connect-pg-simple')(session))({
@@ -42,7 +39,6 @@ app.use(session({
   saveUninitialized: true,
   name: 'sessionId',
 })) 
-
 
 app.use(session({
     secret: 'yourSecretKey', // Add a secret key here
@@ -61,6 +57,7 @@ app.get("/", function(req, res){
 });
 // Inventory routes
 app.use("/inv", inventoryRoute);
+
 /* ***********************
  * Local Server Information
  * Values from .env (environment) file
