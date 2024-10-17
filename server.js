@@ -46,7 +46,8 @@ app.use(static);
 app.get("/", function(req, res){
   res.render("index", {title: "Home"});
 });
-
+// Inventory routes
+app.use("/inv", inventoryRoute);
 /* ***********************
  * Local Server Information
  * Values from .env (environment) file
