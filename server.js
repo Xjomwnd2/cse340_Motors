@@ -25,12 +25,14 @@ const inventoryRoute = require('./routes/inventoryRoute'); // adjust the path ba
 app.set("view engine", "ejs"); 
 app.use(expressLayouts);
 app.set("layout", "./layouts/layout"); // not at views root 
-app.use(cookieParser())
 
 
 /* ***********************
  * Middleware
  * ************************/
+// Set up middleware
+app.use(cookieParser());
+
 app.use(session({
   store: new (require('connect-pg-simple')(session))({
     createTableIfMissing: true,
@@ -49,20 +51,6 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false } // You can set `secure: true` if you're using HTTPS
 }));
-
-///////////////////////
-
-// Set up middleware
-app.use(cookieParser());
-
-app.use(session({
-    secret: 'yourSecretKey', // <-- Replace 'yourSecretKey' with a strong random string
-    resave: false, // don't save session if unmodified
-    saveUninitialized: true, // save new sessions
-    cookie: { secure: false } // Use secure: true if using HTTPS
-}));
-
-///////////////////////////////
 
 /* ***********************
  * Routes
