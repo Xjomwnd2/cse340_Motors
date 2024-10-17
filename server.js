@@ -11,8 +11,9 @@ const env = require("dotenv").config();
 const app = express();
 const static = require("./routes/static");
 const cookieParser = require("cookie-parser");
-const session = require("express-session")
-const pool = require('./database/')
+const session = require("express-session");
+const pool = require('./database/');
+const baseController = require("./controllers/baseController");
 
 /* ***********************
  * View Engine and Templates
