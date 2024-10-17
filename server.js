@@ -15,6 +15,8 @@ const session = require("express-session");
 const pool = require('./database/');
 const baseController = require("./controllers/baseController");
 const inventoryRoute = require('./routes/inventoryRoute'); // adjust the path based on your folder structure
+const cookieParser = require('cookie-parser');
+
 
 
 /* ***********************
@@ -47,6 +49,20 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false } // You can set `secure: true` if you're using HTTPS
 }));
+
+///////////////////////
+
+// Set up middleware
+app.use(cookieParser());
+
+app.use(session({
+    secret: 'yourSecretKey', // <-- Replace 'yourSecretKey' with a strong random string
+    resave: false, // don't save session if unmodified
+    saveUninitialized: true, // save new sessions
+    cookie: { secure: false } // Use secure: true if using HTTPS
+}));
+
+///////////////////////////////
 
 /* ***********************
  * Routes
