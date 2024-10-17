@@ -25,6 +25,7 @@ app.use(expressLayouts);
 app.set("layout", "./layouts/layout"); // not at views root 
 app.use(cookieParser())
 
+
 /* ***********************
  * Middleware
  * ************************/
@@ -39,6 +40,13 @@ app.use(session({
   name: 'sessionId',
 })) 
 
+
+app.use(session({
+    secret: 'yourSecretKey', // Add a secret key here
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // You can set `secure: true` if you're using HTTPS
+}));
 
 /* ***********************
  * Routes
