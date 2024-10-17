@@ -1,11 +1,3 @@
-/* Base Styles for All Screen Sizes */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
-
 body {
   line-height: 1.6;
   color: #333;
@@ -48,12 +40,25 @@ nav ul li a {
 /* Main Section */
 main {
   padding: 2rem 0;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
 }
 
 main h1 {
   text-align: center;
   color: #333;
   margin-bottom: 2rem;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+main p {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+  color: #666;
 }
 
 /* Cards Layout for Products */
@@ -70,19 +75,31 @@ main h1 {
   padding: 1rem;
   width: 30%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .product-card img {
   width: 100%;
   height: auto;
+  border-radius: 5px;
 }
 
 .product-card h2 {
   color: #444;
+  font-size: 1.5rem;
+  margin-top: 0.5rem;
 }
 
 .product-card p {
   margin: 1rem 0;
+  color: #666;
+  font-size: 1rem;
 }
 
 .product-card a {
@@ -93,6 +110,8 @@ main h1 {
   text-align: center;
   text-decoration: none;
   margin-top: 1rem;
+  border-radius: 5px;
+  transition: background-color 0.3s;
 }
 
 .product-card a:hover {
@@ -121,7 +140,11 @@ footer {
   }
 
   main h1 {
-      font-size: 1.8rem;
+      font-size: 2rem;
+  }
+
+  main p {
+      font-size: 1.1rem;
   }
 }
 
@@ -143,9 +166,13 @@ footer {
   }
 
   main h1 {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
   }
   
+  main p {
+      font-size: 1rem;
+  }
+
   .container {
       width: 100%;
   }
