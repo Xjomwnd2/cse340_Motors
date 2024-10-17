@@ -1,7 +1,7 @@
 // Process the login request
 router.post(
-    "/login",
+    "/login", utilities.checkLogin,
     regValidate.loginRules(),
     regValidate.checkLoginData,
     utilities.handleErrors(accountController.accountLogin)
-  )
+  );
