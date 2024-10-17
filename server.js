@@ -35,7 +35,7 @@ app.use(session({
   resave: true,
   saveUninitialized: true,
   name: 'sessionId',
-}))
+})) 
 
 
 /* ***********************
