@@ -45,43 +45,41 @@ app.use(session({
  *************************/
 app.use(static);
 // Index route
-app.get("/", utilities.handleErrors(baseController.buildHome))
+app.get("/", utilities.handleErrors(baseController.buildHome));
 // Inventory route
-app.use("/inv", inventoryRoute)
+app.use("/inv", inventoryRoute);
 // Account Route
-app.use("/account", accountRoute)
+app.use("/account", accountRoute);
 // File not found route
 app.use(async (req, res, next) => {
   next({ status: 404, message: "Sorry, we appear to have lost that page." })
-})
+});
 /////////////////////////// Routes to vehicle management /////////////////////////////////////
 router.get(
   "/",
   utilities.checkLogin,
   utilities.checkUserLevel,
   utilities.handleErrors(invController.showManagementPage)
-)
+);
 
 router.get(
   "/type/:classificationId",
   utilities.handleErrors(invController.buildByClassificationId)
-)
+);
 
 router.get(
   "/detail/:invId",
   utilities.handleErrors(invController.buildByVehicleId)
-)
+);
 
 router.get(
   "/new-classification",
   utilities.checkLogin,
   utilities.checkUserLevel,
   utilities.handleErrors(invController.buildNewClassification)
-)
+);
 ///////////////////////
-app.get("/", function(req, res){
-  res.render("index", {title: "Home"});
-});
+
 
 /* ***********************
  * Local Server Information
