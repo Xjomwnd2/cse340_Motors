@@ -17,7 +17,6 @@ router.get('/login', (req, res, next) => {
 router.post(
   '/login',
   utilities.checkLogin,
-  regValidate.loginRules(),
   regValidate.checkLoginData,
   (req, res, next) => {
     try {
