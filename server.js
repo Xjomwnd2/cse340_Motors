@@ -2,100 +2,80 @@
  * This server.js file is the primary file of the 
  * application. It is used to control the project.
  *******************************************/
-/* ***********************
- * Require Statements
- *************************/
 const express = require("express");
-const router = new express.Router();
-const utilities = require('./utilities'); // Adjust the path if needed
-const baseController = require('./controllers/baseController'); 
-const accountRoute = require('./routes/accountRoute'); // Ensure the path is correct
-const invControllers = require("./controllers/invControllers");
-const { validateInventory } = require('../utilities/inventory-validation.js');
 const expressLayouts = require("express-ejs-layouts");
-const env = require("dotenv").config();
-const app = express();
-const static = require("./routes/static");
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const pgSession = require('connect-pg-simple')(session);
+const dotenv = require("dotenv");
+
+const utilities = require('./utilities');
+const baseController = require('./controllers/baseController');
+const accountRoute = require('./routes/accountRoute');
+const invController = require("./controllers/invControllers");
+const { validateInventory } = require('./utilities/inventory-validation.js');
+const static = require("./routes/static");
 const pool = require('./database/');
-const inventoryRoute = require('./routes/inventoryRoute'); // adjust the path based on your folder structure
+const inventoryRoute = require('./routes/inventoryRoute');
+
+dotenv.config();
+
+const app = express();
+const router = express.Router();
 
 /* ***********************
  * View Engine and Templates
  *************************/
-app.set("view engine", "ejs"); 
+app.set("view engine", "ejs");
 app.use(expressLayouts);
-app.set("layout", "./layouts/layout"); // not at views root 
+app.set("layout", "./layouts/layout");
 
 /* ***********************
  * Middleware
- * ************************/
-// Set up middleware
+ *************************/
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
 app.use(session({
-  store: new (require('connect-pg-simple')(session))({
+  store: new pgSession({
     createTableIfMissing: true,
     pool,
   }),
-  secret: process.env.SESSION_SECRET || 'yourSecretKey', // Ensure the secret is set
-  resave: false, // Changed from true to avoid unnecessary session resaving
+  secret: process.env.SESSION_SECRET || 'yourSecretKey',
+  resave: false,
   saveUninitialized: true,
-  cookie: { secure: false } // Set to true if using HTTPS
-})); 
+  cookie: { secure: process.env.NODE_ENV === 'production' }
+}));
 
 /* ***********************
  * Routes
  *************************/
 app.use(static);
-// Index route
 app.get("/", utilities.handleErrors(baseController.buildHome));
-// Inventory route
 app.use("/inv", inventoryRoute);
-// Account Route
 app.use("/account", accountRoute);
-// File not found route
-app.use(async (req, res, next) => {
-  next({ status: 404, message: "Sorry, we appear to have lost that page." })
+
+// Vehicle management routes
+router.get("/", utilities.checkLogin, utilities.checkUserLevel, utilities.handleErrors(invController.showManagementPage));
+router.get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId));
+router.get("/detail/:invId", utilities.handleErrors(invController.buildByVehicleId));
+router.get("/new-classification", utilities.checkLogin, utilities.checkUserLevel, utilities.handleErrors(invController.buildNewClassification));
+
+app.use("/vehicle", router);
+
+// 404 - File Not Found
+app.use((req, res, next) => {
+  next({ status: 404, message: "Sorry, we appear to have lost that page." });
 });
-/////////////////////////// Routes to vehicle management /////////////////////////////////////
-router.get(
-  "/",
-  utilities.checkLogin,
-  utilities.checkUserLevel,
-  utilities.handleErrors(invController.showManagementPage)
-);
 
-router.get(
-  "/type/:classificationId",
-  utilities.handleErrors(invController.buildByClassificationId)
-);
-
-router.get(
-  "/detail/:invId",
-  utilities.handleErrors(invController.buildByVehicleId)
-);
-
-router.get(
-  "/new-classification",
-  utilities.checkLogin,
-  utilities.checkUserLevel,
-  utilities.handleErrors(invController.buildNewClassification)
-);
-///////////////////////
-
+// Error handler
+app.use((err, req, res, next) => {
+  const status = err.status || 500;
+  res.status(status).render('errors/error', { title: status, message: err.message });
+});
 
 /* ***********************
- * Local Server Information
- * Values from .env (environment) file
+ * Server Activation
  *************************/
-
-/* ***********************
- * Log statement to confirm server operation
- *************************/
-const PORT = process.env.PORT || 5500; // Ensure there's a default port
-
-app.listen(PORT, () => {
-  console.log(`app listening on localhost:${PORT}`);
-});
+const PORT = process.env.PORT || 5500;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
