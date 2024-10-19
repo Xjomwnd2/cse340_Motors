@@ -8,7 +8,7 @@
 const express = require("express");
 const router = new express.Router();
 const invControllers = require("./controllers/invControllers");
-const { validateInventory } = require('../utilities/inventory-validation');
+const { validateInventory } = require('../utilities/inventory-validation.js');
 const expressLayouts = require("express-ejs-layouts");
 const env = require("dotenv").config();
 const app = express();
