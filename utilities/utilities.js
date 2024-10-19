@@ -23,3 +23,5 @@ module.exports = {
   checkLogin,
   // Include any other utilities if needed
 };
+
+console.log("Utilities loaded:", module.exports);
