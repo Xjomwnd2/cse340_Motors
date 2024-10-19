@@ -1,3 +1,9 @@
+// utilities.js
+
+// Log to verify the module loads correctly
+console.log("Utilities module loaded");
+
+// Define the handleErrors function
 const handleErrors = (controllerFunction) => {
   return async (req, res, next) => {
     try {
@@ -8,11 +14,13 @@ const handleErrors = (controllerFunction) => {
   };
 };
 
+// Define the checkLogin function
 const checkLogin = (req, res, next) => {
   // Your login checking logic here
   next();
 };
 
+// Export the functions
 module.exports = {
   handleErrors,
   checkLogin,
