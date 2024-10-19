@@ -7,7 +7,7 @@
  *************************/
 const express = require("express");
 const router = new express.Router();
-const invControllers = require("../controllers/invControllers");
+const invControllers = require("./controllers/invControllers");
 const utilities = require("../utilities");
 const invValidate = require("../utilities/inventory-validation");
 const expressLayouts = require("express-ejs-layouts");
