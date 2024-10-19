@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { validateVehicle } = require("./validation/inventory-validation"); // Adjust the path as needed
+const { validateVehicle } = require("../validation/inventory-validation"); // Adjust the path as needed
 const invModel = require("../models/inventory-model");
 const utilities = require("../utilities/");
 
