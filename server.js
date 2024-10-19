@@ -17,7 +17,6 @@ const static = require("./routes/static");
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const pool = require('./database/');
-const baseController = require("./controllers/baseController");
 const inventoryRoute = require('./routes/inventoryRoute'); // adjust the path based on your folder structure
 
 /* ***********************
