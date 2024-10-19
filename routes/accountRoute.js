@@ -1,25 +1,31 @@
 const express = require('express');
-const router = express.Router(); // Ensure this line exists
-const accountController = require('../controllers/accountController'); // Ensure the path is correct
-const regValidate = require('../utilities/registration-validation'); // If needed for validation
-const { validateRegistration } = require('../utilities/registration-validation');
-const utilities = require('../utilities'); // Assuming you have utility functions
-console.log('Utilities:', utilities); // Lo
-
+const router = express.Router();
+const accountController = require('../controllers/accountController');
+const regValidate = require('../utilities/registration-validation');
+const utilities = require('../utilities');
 
 // Route to deliver the login view (GET /login)
-router.get(
-  '/login', 
-  utilities.handleErrors(accountController.buildLogin) // Serves the login page
-);
+router.get('/login', (req, res, next) => {
+  try {
+    accountController.buildLogin(req, res);
+  } catch (error) {
+    next(error);
+  }
+});
 
 // Process the login request (POST /login)
 router.post(
-  '/login', 
+  '/login',
   utilities.checkLogin,
   regValidate.loginRules(),
   regValidate.checkLoginData,
-  utilities.handleErrors(accountController.accountLogin) // Handles login form submission
+  (req, res, next) => {
+    try {
+      accountController.accountLogin(req, res);
+    } catch (error) {
+      next(error);
+    }
+  }
 );
 
 module.exports = router;
