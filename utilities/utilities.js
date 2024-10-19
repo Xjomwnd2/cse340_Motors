@@ -1,18 +1,19 @@
 // utilities.js
-function exampleUtilityFunction() {
-    return "This is a utility function!";
-  }
-  
-  module.exports = {
-    exampleUtilityFunction,
+
+// Example of handleErrors function
+const handleErrors = (controllerFunction) => {
+    return async (req, res, next) => {
+      try {
+        await controllerFunction(req, res, next);
+      } catch (error) {
+        next(error);
+      }
+    };
   };
-  // utilities.js
-
-function getNav() {
-  // Your logic here
-}
-
-module.exports = {
-  getNav,
-  // other exports
-};
+  
+  // Export the function
+  module.exports = {
+    handleErrors,
+    // ... other exports
+  };
+  
