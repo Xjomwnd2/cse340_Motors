@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router(); // Ensure this line exists
 const accountController = require('../controllers/accountController'); // Ensure the path is correct
 const regValidate = require('../utilities/registration-validation'); // If needed for validation
-const utilities = require('../utilities'); // Assuming you have utility functions
 const { validateRegistration } = require('../utilities/registration-validation');
+const utilities = require('../utilities'); // Assuming you have utility functions
+console.log('Utilities:', utilities); // Lo
 
 
 // Route to deliver the login view (GET /login)
