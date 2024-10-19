@@ -7,6 +7,9 @@
  *************************/
 const express = require("express");
 const router = new express.Router();
+const utilities = require('./utilities'); // Adjust the path if needed
+const baseController = require('./controllers/baseController'); 
+const accountRoute = require('./routes/accountRoute'); // Ensure the path is correct
 const invControllers = require("./controllers/invControllers");
 const { validateInventory } = require('../utilities/inventory-validation.js');
 const expressLayouts = require("express-ejs-layouts");
