@@ -23,8 +23,8 @@ function validateInventory(data) {
     return {
       isValid: errors.length === 0,
       errors: errors
-    };
-  }
+    }
+  };
   
   // Export the validateInventory function
   module.exports = {
